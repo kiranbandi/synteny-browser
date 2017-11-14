@@ -22,7 +22,9 @@
     "url": "https://github.com/kiranbandi/synteny-browser/issues"
   },
   "homepage": "https://github.com/kiranbandi/synteny-browser#readme",
-  "dependencies": {},
+  "dependencies": {
+    "p5": "^0.5.16"
+  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
