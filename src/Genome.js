@@ -22,7 +22,6 @@ Genome.prototype.summary = function () {
 
 Genome.prototype.calculateChromosomeStarts = function () {
 
-
     Object.keys(this.regions).forEach(function (key) {
         var r = this.regions[key];
         var chrom = r.chromosome;
@@ -30,27 +29,27 @@ Genome.prototype.calculateChromosomeStarts = function () {
         var end = r.end;
 
         if (Object.keys(this.chromosomes).indexOf(chrom) == -1) {
-            chromosomes[chrom] = new Chromosome(chrom);
+            this.chromosomes[chrom] = new Chromosome(chrom);
         }
-        c = chromosomes[chrom];
+        c = this.chromosomes[chrom];
         if (c.localEnd < end) {
             c.localEnd = end;
         }
 
     });
 
-    chromosomes[1].genomeStart = 0;
-    chromosomes[1].genomeEnd = c.localEnd;
+    this.chromosomes[1].genomeStart = 0;
+    this.chromosomes[1].genomeEnd = c.localEnd;
 
-    for (var i = 2; i <= Object.keys(chromosomes).length; i++) {
-        c = chromosomes[i];
-        prevC = chromosomes[i - 1];
+    for (var i = 2; i <= Object.keys(this.chromosomes).length; i++) {
+        c = this.chromosomes[i];
+        prevC = this.chromosomes[i - 1];
         c.genomeStart = prevC.genomeEnd + 1;
         c.genomeEnd = prevC.genomeEnd + c.localEnd;
     }
 
     // set length of entire genome
-    this.totalLength = chromosomes[Object.keys(chromosomes).length].genomeEnd;
+    this.totalLength = this.chromosomes[Object.keys(this.chromosomes).length].genomeEnd;
 
 };
 
