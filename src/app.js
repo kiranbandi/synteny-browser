@@ -16,7 +16,7 @@ var pContext,
     controls = [],
     genomes = [],
     scaleLC = 950000.0,
-    scaleMT = 210000.0,
+    scaleMT = 200000.0,
     scaleCA = 190000.0;
 
 var sketch = function (p) {
@@ -63,8 +63,7 @@ function loadFileErrorCallback(error) {
 
 function getGenomeRegions(gff, nick) {
 
-    var regions = {},
-        starts = {},
+    var regions = new Map(),
         info = [],
         id = '',
         chromString = '',
@@ -93,10 +92,9 @@ function getGenomeRegions(gff, nick) {
             if (chrom > 15) {
                 continue;
             }
-
             regionStart = parseInt(parts[3]);
             regionEnd = parseInt(parts[4]);
-            regions[id] = new Region(chrom, regionStart, regionEnd, id, nextOrdinal++);
+            regions.set(id, new Region(chrom, regionStart, regionEnd, id, nextOrdinal++));
         }
     }
 
@@ -133,8 +131,7 @@ function drawChromosomeMarkers() {
     pContext.strokeWeight(10);
     pContext.strokeCap(pContext.SQUARE);
 
-    Object.keys(lc.chromosomes).forEach(function (key) {
-        c = lc.chromosomes[key];
+    for(var c of lc.chromosomes.values()){
         startX = c.genomeStart / scaleLC;
         endX = c.genomeEnd / scaleLC;
         pContext.stroke(darkColors[c.id - 1]);
@@ -142,26 +139,24 @@ function drawChromosomeMarkers() {
         pContext.line(50 + startX, 394, 50 + endX, 394);
         pContext.line(50 + startX, 694, 50 + endX, 694);
         pContext.line(50 + startX, 994, 50 + endX, 994);
-    });
+    }
 
-    Object.keys(mt.chromosomes).forEach(function (key) {
-        c = mt.chromosomes[key];
+    for(var c of mt.chromosomes.values()){
         startX = (c.genomeStart) / scaleMT;
         endX = (c.genomeEnd) / scaleMT;
         pContext.stroke(flipColors[c.id - 1]);
         pContext.line(50 + startX, 306, 50 + endX, 306);
         pContext.line(50 + startX, 606, 50 + endX, 606);
-    });
+    };
 
 
-    Object.keys(lc.chromosomes).forEach(function (key) {
-        c = lc.chromosomes[key];
+    for(var c of lc.chromosomes.values()){
         startX = c.genomeStart / scaleLC;
         endX = c.genomeEnd / scaleLC;
         pContext.stroke(flipColors[c.id - 1]);
         pContext.line(50 + startX, 906, 50 + endX, 906);
         pContext.line(50 + startX, 1206, 50 + endX, 1206);
-    });
+    };
 
     pContext.strokeWeight(1);
 }
