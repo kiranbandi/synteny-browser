@@ -1,0 +1,8 @@
+comparison	comparative_rbh.txt
+*	*
+Lc	Lens-genes-only.gff3
+Mt	Medicago-genes-only.gff3
+Ca	Cicer-mRNA-only.gff3
+*	*
+Lc-Mt	5	3
+Lc-Ca	6	8

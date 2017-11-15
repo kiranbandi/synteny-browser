@@ -9,18 +9,21 @@ var Genome = function (newRegions, nick) {
 
 Genome.prototype.summary = function () {
     if (Object.keys(this.chromosomes).length == 0) {
-        calculateChromosomeStarts();
+        this.calculateChromosomeStarts();
     }
     console.log("Genome: " + this.nickname);
     console.log("Number of regions: " + Object.keys(this.regions).length);
     console.log("Chromosome starts:");
     Object.keys(this.chromosomes).forEach(function (key) {
         console.log(key + ": " + this.chromosomes[key].genomeStart);
-    });
+    }.bind(this));
 
 };
 
 Genome.prototype.calculateChromosomeStarts = function () {
+
+    var c = {},
+        prevC = {};
 
     Object.keys(this.regions).forEach(function (key) {
         var r = this.regions[key];
@@ -36,7 +39,7 @@ Genome.prototype.calculateChromosomeStarts = function () {
             c.localEnd = end;
         }
 
-    });
+    }.bind(this));
 
     this.chromosomes[1].genomeStart = 0;
     this.chromosomes[1].genomeEnd = c.localEnd;
@@ -50,6 +53,7 @@ Genome.prototype.calculateChromosomeStarts = function () {
 
     // set length of entire genome
     this.totalLength = this.chromosomes[Object.keys(this.chromosomes).length].genomeEnd;
+    console.log(this.totalLength);
 
 };
 
