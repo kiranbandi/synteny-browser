@@ -1,0 +1,13 @@
+#loaderText {
+    font-family: sans-serif;
+    text-align: center;
+    margin: 40px;
+    color: #4e89bd;
+}
+
+#progressBarContainer {
+    margin: 20px;
+    width: 400px;
+    height: 8px;
+    position: relative;
+  }

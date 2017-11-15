@@ -24,7 +24,8 @@
   "homepage": "https://github.com/kiranbandi/synteny-browser#readme",
   "dependencies": {
     "axios": "^0.17.1",
-    "p5": "^0.5.16"
+    "p5": "^0.5.16",
+    "progressbar.js": "^1.0.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
