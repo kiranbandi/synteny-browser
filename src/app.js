@@ -1,10 +1,8 @@
 import p5 from 'p5';
 import Link from './Link';
-import Genome from './Genome';
-import Region from './Region';
 import LinkGroup from './LinkGroup';
-import Chromosome from './Chromosome';
 import axios from 'axios';
+import getGenomes from './getGenomes';
 // import progressBar from './progressBar';
 
 var pContext,
@@ -19,7 +17,10 @@ var pContext,
     genomes = [],
     scaleLC = 950000.0,
     scaleMT = 200000.0,
-    scaleCA = 190000.0;
+    scaleCA = 190000.0,
+    parallelLC,
+    parallelMT,
+    parallelCA;
 
 var sketch = function (p) {
     pContext = p;
@@ -47,11 +48,20 @@ var sketch = function (p) {
 
             connections = connectionsResponse.data.split("\n");
             console.log("Size of comparison file: " + connections.length);
-            genomes.push(getGenomeRegions(lentilsGff.data.split("\n"), 'Lc'));
-            genomes.push(getGenomeRegions(medicagoGff.data.split("\n"), 'Mt'));
-            genomes.push(getGenomeRegions(cicerGff.data.split("\n"), 'Ca'));
-            performGenomicComparision();
 
+            getGenomes([{
+                'data': lentilsGff.data.split("\n"),
+                'nickName': 'Lc'
+            }, {
+                'data': medicagoGff.data.split("\n"),
+                'nickName': 'Mt'
+            }, {
+                'data': cicerGff.data.split("\n"),
+                'nickName': 'Ca'
+            }]).then(function (genomicDataArray) {
+                genomes = genomicDataArray;
+                performGenomicComparision();
+            })
         })).catch(loadFileErrorCallback);
 
     };
@@ -60,48 +70,6 @@ var sketch = function (p) {
 function loadFileErrorCallback(error) {
     console.log(error);
     console.log("There was an error loading the required files , please try again");
-}
-
-function getGenomeRegions(gff, nick) {
-
-    var regions = new Map(),
-        info = [],
-        id = '',
-        chromString = '',
-        chrom = 0,
-        regionStart = 0,
-        regionEnd = 0,
-        parts = [],
-        subParts = [],
-        matchCheck = [],
-        nextOrdinal = 0,
-        newGenome = {};
-
-    for (var i = 0; i < gff.length; i++) {
-        parts = gff[i].split('\t');
-        if (parts.length >= 9) {
-            chromString = parts[0];
-            matchCheck = chromString.match("scaffold|Contig");
-            if (matchCheck != null) {
-                continue;
-            }
-            info = parts[8].split(";");
-            subParts = pContext.splitTokens(info[0], "=:;");
-            id = subParts[subParts.length - 1];
-            chromString = chromString.replace(/[^0-9]/g, "");
-            chrom = parseInt(chromString);
-            if (chrom > 15) {
-                continue;
-            }
-            regionStart = parseInt(parts[3]);
-            regionEnd = parseInt(parts[4]);
-            regions.set(id, new Region(chrom, regionStart, regionEnd, id, nextOrdinal++));
-        }
-    }
-
-    newGenome = new Genome(regions, nick);
-    newGenome.summary();
-    return newGenome;
 }
 
 function performGenomicComparision() {
