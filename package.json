@@ -5,7 +5,7 @@
   "main": "src/app.js",
   "scripts": {
     "start": "webpack-dev-server --config ./build-config/webpack.config.js --watch-poll",
-    "build": "webpack -p --config ./build-config/webpack.prod.config.js",
+    "build": "webpack --config ./build-config/webpack.prod.config.js",
     "deploy": "npm run build && npm run deploy-gh",
     "deploy-gh": "gh-pages -d build"
   },
@@ -31,8 +31,10 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
+    "babel-minify-webpack-plugin": "^0.2.0",
     "babel-polyfill": "^6.23.0",
     "gh-pages": "^0.12.0",
+    "uglifyjs-webpack-plugin": "^1.0.1",
     "webpack": "^3.8.1",
     "webpack-dev-server": "^2.9.4"
   }

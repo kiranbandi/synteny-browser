@@ -4,6 +4,10 @@ var Genome = function (newRegions, nick) {
     this.chromosomes = new Map(); // map of chromosome objects with the keys being 1 2 3 .. (numerical)
     this.totalLength = -1;
 
+    // Keeping functions locally instead of attaching them to prototype 
+    // because mapping them to webworkers while passing scope is causing an error 
+    // since paralleljs's implementation of copying functions to web worker's scope skips the functions that are attached to the functions prototype
+
     this.summary = function () {
         if (this.chromosomes.size == 0) {
             this.calculateChromosomeStarts();
@@ -15,10 +19,6 @@ var Genome = function (newRegions, nick) {
             console.log(key + ": " + this.chromosomes.get(key).genomeStart);
         }
     };
-
-    
-    // Keeping functions locally instead of attaching them to prototype 
-    // because mapping them to webworkers while passing scope is leading to a local error
 
     this.calculateChromosomeStarts = function () {
         var c = {},
