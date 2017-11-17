@@ -1,0 +1,18 @@
+#loaderText {
+    font-family: sans-serif;
+    text-align: center;
+    text-transform: uppercase;
+    margin: 40px;
+    color: #4e89bd;
+}
+
+#progressBarContainer {
+    margin: 20px auto;
+    width: 200px;
+    height: 200px;
+    position: relative;
+  }
+
+  .progressbar-text {
+    font-weight: bold;
+  }
