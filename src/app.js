@@ -97,11 +97,11 @@ function performGenomicComparision() {
         drawGroups(linkGroups1, 400, 600, "Lc", "Mt", scaleLC, scaleMT);
         drawGroups(linkGroups2, 1000, 1200, "Lc", "Ca", scaleLC, scaleCA);
         drawChromosomeMarkers();
-        pContext.image(graphicsBuffer,0,0);
+        pContext.image(graphicsBuffer, 0, 0);
         progressBar.animate(1);
-        window.setTimeout(function(){
+        window.setTimeout(function () {
             document.getElementById('progressBarContainer').style.display = 'none';
-        },1500);
+        }, 1500);
     }, 1500);
 
 }
@@ -240,27 +240,27 @@ function drawLinks(linkGroups, top, bottom, labelTop, labelBottom, scale1, scale
         sourceC,
         targetC;
 
-        for (var lgIndex = 0; lgIndex < linkGroups.length; lgIndex++) {
-            linkGroup = linkGroups[lgIndex];
-            for (var linkIndex = 0; linkIndex < linkGroup.links.length; linkIndex++) {
-                link = linkGroup.links[linkIndex];
-                sourceC = link.g1.chromosomes.get(link.source.chromosome);
-                targetC = link.g2.chromosomes.get(link.target.chromosome);
-                sourceX = (sourceC.genomeStart + link.source.start) / scale1;
-                targetX = (targetC.genomeStart + link.target.start) / scale2;
-                graphicsBuffer.stroke(lightColors[link.source.chromosome - 1]);
-                graphicsBuffer.line(50 + sourceX, top, 50 + targetX, bottom);
-            }
+    for (var lgIndex = 0; lgIndex < linkGroups.length; lgIndex++) {
+        linkGroup = linkGroups[lgIndex];
+        for (var linkIndex = 0; linkIndex < linkGroup.links.length; linkIndex++) {
+            link = linkGroup.links[linkIndex];
+            sourceC = link.g1.chromosomes.get(link.source.chromosome);
+            targetC = link.g2.chromosomes.get(link.target.chromosome);
+            sourceX = (sourceC.genomeStart + link.source.start) / scale1;
+            targetX = (targetC.genomeStart + link.target.start) / scale2;
+            graphicsBuffer.stroke(lightColors[link.source.chromosome - 1]);
+            graphicsBuffer.line(50 + sourceX, top, 50 + targetX, bottom);
         }
+    }
 
-        graphicsBuffer.textSize(32);
-        graphicsBuffer.fill(0);
-        graphicsBuffer.textAlign(graphicsBuffer.LEFT, graphicsBuffer.CENTER);
-        graphicsBuffer.text(labelTop, 5, top - 5);
-        graphicsBuffer.text(labelBottom, 5, bottom - 5);
-        graphicsBuffer.stroke(0);
-        graphicsBuffer.line(50, top, 2000, top);
-        graphicsBuffer.line(50, bottom, 2000, bottom);
+    graphicsBuffer.textSize(32);
+    graphicsBuffer.fill(0);
+    graphicsBuffer.textAlign(graphicsBuffer.LEFT, graphicsBuffer.CENTER);
+    graphicsBuffer.text(labelTop, 5, top - 5);
+    graphicsBuffer.text(labelBottom, 5, bottom - 5);
+    graphicsBuffer.stroke(0);
+    graphicsBuffer.line(50, top, 2000, top);
+    graphicsBuffer.line(50, bottom, 2000, bottom);
 
 }
 
@@ -305,36 +305,59 @@ function drawChromosomeMarkers() {
     var mt = genomes[1];
     var ca = genomes[2];
 
-    graphicsBuffer.strokeWeight(10);
-    graphicsBuffer.strokeCap(graphicsBuffer.SQUARE);
-
     // Repeating line strokes twice to darken the color of the bands -- Need to work on an alternate for this !!
 
     for (var c of lc.chromosomes.values()) {
         startX = c.genomeStart / scaleLC;
         endX = c.genomeEnd / scaleLC;
         graphicsBuffer.stroke(markerColors[c.id - 1]);
+        graphicsBuffer.strokeWeight(10);
+        graphicsBuffer.strokeCap(graphicsBuffer.SQUARE);
         graphicsBuffer.line(50 + startX, 95, 50 + endX, 95);
         graphicsBuffer.line(50 + startX, 395, 50 + endX, 395);
         graphicsBuffer.line(50 + startX, 695, 50 + endX, 695);
         graphicsBuffer.line(50 + startX, 995, 50 + endX, 995);
+        // making chromosome number markers 
+        graphicsBuffer.strokeWeight(1);
+        graphicsBuffer.textSize(20);
+        graphicsBuffer.stroke(0);
+        graphicsBuffer.text('Chr ' + c.id, 50 + (endX + startX) / 2, 80);
+        graphicsBuffer.text('Chr ' + c.id, 50 + (endX + startX) / 2, 380);
+        graphicsBuffer.text('Chr ' + c.id, 50 + (endX + startX) / 2, 680);
+        graphicsBuffer.text('Chr ' + c.id, 50 + (endX + startX) / 2, 980);
+
     }
 
     for (var c of mt.chromosomes.values()) {
         startX = (c.genomeStart) / scaleMT;
         endX = (c.genomeEnd) / scaleMT;
         graphicsBuffer.stroke(flipColors[c.id - 1]);
+        graphicsBuffer.strokeWeight(10);
+        graphicsBuffer.strokeCap(graphicsBuffer.SQUARE);
         graphicsBuffer.line(50 + startX, 306, 50 + endX, 306);
         graphicsBuffer.line(50 + startX, 606, 50 + endX, 606);
-
+        // making chromosome number markers 
+        graphicsBuffer.strokeWeight(1);
+        graphicsBuffer.textSize(20);
+        graphicsBuffer.stroke(0);
+        graphicsBuffer.text('Chr ' + c.id, 50 + (endX + startX) / 2, 321);
+        graphicsBuffer.text('Chr ' + c.id, 50 + (endX + startX) / 2, 621);
     };
 
     for (var c of lc.chromosomes.values()) {
         startX = c.genomeStart / scaleLC;
         endX = c.genomeEnd / scaleLC;
         graphicsBuffer.stroke(flipColors[c.id - 1]);
+        graphicsBuffer.strokeWeight(10);
+        graphicsBuffer.strokeCap(graphicsBuffer.SQUARE);
         graphicsBuffer.line(50 + startX, 906, 50 + endX, 906);
         graphicsBuffer.line(50 + startX, 1206, 50 + endX, 1206);
+        // making chromosome number markers 
+        graphicsBuffer.strokeWeight(1);
+        graphicsBuffer.textSize(20);
+        graphicsBuffer.stroke(0);
+        graphicsBuffer.text('Chr ' + c.id, 50 + (endX + startX) / 2, 921);
+        graphicsBuffer.text('Chr ' + c.id, 50 + (endX + startX) / 2, 1221);
     };
     graphicsBuffer.strokeWeight(1);
 }
