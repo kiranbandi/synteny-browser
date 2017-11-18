@@ -34,7 +34,7 @@ var bar = new ProgressBar.Circle(document.getElementById('progressBarContainer')
     } else if (value == 75) {
       circle.setText('Generating canvas...');
     } else if (value == 100){
-      circle.setText('Plot Ready...');
+      circle.setText('Plots Ready...');
     }
 
   }
